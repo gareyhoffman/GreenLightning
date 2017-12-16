@@ -1,9 +1,6 @@
 package com.ociweb.gl.api;
 
-import com.ociweb.gl.impl.stage.CallableMethod;
-import com.ociweb.gl.impl.stage.CallableRestRequestReader;
-import com.ociweb.gl.impl.stage.CallableStaticMethod;
-import com.ociweb.gl.impl.stage.CallableStaticRestRequestReader;
+import com.ociweb.gl.impl.stage.*;
 
 public interface ListenerFilter extends RouteFilter<ListenerFilter> {
 
@@ -11,7 +8,8 @@ public interface ListenerFilter extends RouteFilter<ListenerFilter> {
 	<T extends Behavior> ListenerFilter addSubscription(CharSequence topic, CallableStaticMethod<T> method);
 	
 	ListenerFilter addSubscription(CharSequence topic, CallableMethod method);
-		
+
+	<T> ListenerFilter addSubscription(CharSequence topic, Class struct, CallableTypeSafeMethod<T> method);
 	
 	<T extends Behavior> ListenerFilter includeRoute(int routeId, CallableStaticRestRequestReader<T> callable);
 		

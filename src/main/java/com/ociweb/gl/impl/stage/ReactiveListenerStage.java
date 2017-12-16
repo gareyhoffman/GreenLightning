@@ -1,40 +1,9 @@
 package com.ociweb.gl.impl.stage;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.ociweb.gl.api.Behavior;
-import com.ociweb.gl.api.HTTPFieldReader;
-import com.ociweb.gl.api.HTTPRequestReader;
-import com.ociweb.gl.api.HTTPResponseListener;
-import com.ociweb.gl.api.HTTPResponseReader;
-import com.ociweb.gl.api.HTTPSession;
-import com.ociweb.gl.api.ListenerFilter;
-import com.ociweb.gl.api.MsgCommandChannel;
-import com.ociweb.gl.api.PubSubListener;
-import com.ociweb.gl.api.RestListener;
-import com.ociweb.gl.api.ShutdownListener;
-import com.ociweb.gl.api.StartupListener;
-import com.ociweb.gl.api.StateChangeListener;
-import com.ociweb.gl.api.TimeListener;
+import com.ociweb.gl.api.*;
 import com.ociweb.gl.api.transducer.StartupListenerTransducer;
-import com.ociweb.gl.impl.BuilderImpl;
-import com.ociweb.gl.impl.ChildClassScanner;
-import com.ociweb.gl.impl.ChildClassScannerVisitor;
+import com.ociweb.gl.impl.*;
 import com.ociweb.gl.impl.http.server.HTTPResponseListenerBase;
-import com.ociweb.gl.impl.PayloadReader;
-import com.ociweb.gl.impl.PrivateTopic;
-import com.ociweb.gl.impl.PubSubListenerBase;
-import com.ociweb.gl.impl.PubSubMethodListenerBase;
-import com.ociweb.gl.impl.RestMethodListenerBase;
-import com.ociweb.gl.impl.StartupListenerBase;
 import com.ociweb.gl.impl.schema.MessagePrivate;
 import com.ociweb.gl.impl.schema.MessageSubscription;
 import com.ociweb.gl.impl.schema.TrafficOrderSchema;
@@ -47,13 +16,23 @@ import com.ociweb.pronghorn.network.schema.NetResponseSchema;
 import com.ociweb.pronghorn.pipe.ChannelReader;
 import com.ociweb.pronghorn.pipe.DataInputBlobReader;
 import com.ociweb.pronghorn.pipe.Pipe;
-import com.ociweb.pronghorn.pipe.PipeConfig;
 import com.ociweb.pronghorn.pipe.PipeUTF8MutableCharSquence;
 import com.ociweb.pronghorn.pipe.util.hash.IntHashTable;
 import com.ociweb.pronghorn.stage.PronghornStage;
 import com.ociweb.pronghorn.stage.scheduling.GraphManager;
+import com.ociweb.pronghorn.structure.annotations.ProngStruct;
+import com.ociweb.pronghorn.structure.annotations.ProngStructReadEngaging;
 import com.ociweb.pronghorn.util.TrieParser;
 import com.ociweb.pronghorn.util.TrieParserReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ReactiveListenerStage<H extends BuilderImpl> extends PronghornStage implements ListenerFilter {
 
@@ -991,7 +970,7 @@ public class ReactiveListenerStage<H extends BuilderImpl> extends PronghornStage
 	@SuppressWarnings("unchecked")
 	public final ListenerFilter addSubscription(CharSequence topic, 
 		                                    	final CallableMethod callable) {
-		
+
 		return addSubscription(topic, new CallableStaticMethod() {
 			@Override
 			public boolean method(Object that, CharSequence title, ChannelReader reader) {
@@ -1001,7 +980,35 @@ public class ReactiveListenerStage<H extends BuilderImpl> extends PronghornStage
 			}
 		});
 	}
-	
+
+	public <T> ListenerFilter addSubscription(CharSequence topic, Class struct, final CallableTypeSafeMethod<T> callable) {
+		final ProngStructReadEngaging engaging;
+		final T data;
+
+		assert(struct.getAnnotation(ProngStruct.class) != null) : "may only use struct classes annotated with ProngStruct";
+
+		try {
+			String implName = struct.getName() + ProngStructReadEngaging.implSuffix;
+			Class<?> implClass = Class.forName(implName);
+			data = (T)implClass.newInstance();
+			engaging = (ProngStructReadEngaging)data;
+		} catch (IllegalAccessException | InstantiationException | ClassNotFoundException e) {
+			throw new RuntimeException("Failed to create struct impl instance", e);
+		}
+
+		return addSubscription(topic, new CallableStaticMethod() {
+			@Override
+			public boolean method(Object that, CharSequence title, ChannelReader reader) {
+				// that must be found as the declared field of the lambda
+				assert(childIsFoundIn(that,callable)) : "may only call methods on this same Behavior instance";
+				engaging.engageWithChannelForRead(reader);
+				boolean result = callable.method(title, data);
+				engaging.engageWithChannelForRead(null);
+				return true;//result;
+			}
+		});
+	}
+
 	public final ListenerFilter includeRoute(int routeId, final CallableRestRequestReader callable) {
 		
 		if (null==restRequestReader) {
