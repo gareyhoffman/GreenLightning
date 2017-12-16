@@ -10,7 +10,7 @@ public abstract class GreenRational {
     public abstract long getDenominator();
     public abstract void setDenominator(long value);
 
-    public double getValue() {
+    public final double getValue() {
         return (double) getNumerator() / (double) getDenominator();
     }
 }

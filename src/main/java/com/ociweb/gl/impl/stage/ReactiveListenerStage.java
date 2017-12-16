@@ -21,7 +21,7 @@ import com.ociweb.pronghorn.pipe.util.hash.IntHashTable;
 import com.ociweb.pronghorn.stage.PronghornStage;
 import com.ociweb.pronghorn.stage.scheduling.GraphManager;
 import com.ociweb.pronghorn.structure.annotations.ProngStruct;
-import com.ociweb.pronghorn.structure.annotations.ProngStructReadEngaging;
+import com.ociweb.pronghorn.structure.annotations.ProngStructChannelReader;
 import com.ociweb.pronghorn.util.TrieParser;
 import com.ociweb.pronghorn.util.TrieParserReader;
 import org.slf4j.Logger;
@@ -982,16 +982,16 @@ public class ReactiveListenerStage<H extends BuilderImpl> extends PronghornStage
 	}
 
 	public <T> ListenerFilter addSubscription(CharSequence topic, Class struct, final CallableTypeSafeMethod<T> callable) {
-		final ProngStructReadEngaging engaging;
+		final ProngStructChannelReader engaging;
 		final T data;
 
 		assert(struct.getAnnotation(ProngStruct.class) != null) : "may only use struct classes annotated with ProngStruct";
 
 		try {
-			String implName = struct.getName() + ProngStructReadEngaging.implSuffix;
+			String implName = struct.getName() + ProngStructChannelReader.implSuffix;
 			Class<?> implClass = Class.forName(implName);
 			data = (T)implClass.newInstance();
-			engaging = (ProngStructReadEngaging)data;
+			engaging = (ProngStructChannelReader)data;
 		} catch (IllegalAccessException | InstantiationException | ClassNotFoundException e) {
 			throw new RuntimeException("Failed to create struct impl instance", e);
 		}
