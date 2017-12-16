@@ -13,4 +13,8 @@ public abstract class GreenRational {
     public final double getValue() {
         return (double) getNumerator() / (double) getDenominator();
     }
+
+    public String toString() {
+        return String.valueOf(getNumerator()) + "/" + getDenominator();
+    }
 }

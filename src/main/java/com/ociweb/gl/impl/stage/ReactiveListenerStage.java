@@ -985,10 +985,11 @@ public class ReactiveListenerStage<H extends BuilderImpl> extends PronghornStage
 		final ProngStructChannelReader engaging;
 		final T data;
 
-		assert(struct.getAnnotation(ProngStruct.class) != null) : "may only use struct classes annotated with ProngStruct";
+		ProngStruct prongStruct = (ProngStruct) struct.getAnnotation(ProngStruct.class);
+		assert(prongStruct != null) : "may only use struct classes annotated with ProngStruct";
 
 		try {
-			String implName = struct.getName() + ProngStructChannelReader.implSuffix;
+			String implName = struct.getName() + ProngStruct.ExternalizableImplSuffix;
 			Class<?> implClass = Class.forName(implName);
 			data = (T)implClass.newInstance();
 			engaging = (ProngStructChannelReader)data;
@@ -1001,9 +1002,9 @@ public class ReactiveListenerStage<H extends BuilderImpl> extends PronghornStage
 			public boolean method(Object that, CharSequence title, ChannelReader reader) {
 				// that must be found as the declared field of the lambda
 				assert(childIsFoundIn(that,callable)) : "may only call methods on this same Behavior instance";
-				engaging.engageWithChannelForRead(reader);
+				engaging.read(reader);
 				boolean result = callable.method(title, data);
-				engaging.engageWithChannelForRead(null);
+				engaging.read(null);
 				return true;//result;
 			}
 		});
