@@ -8,6 +8,9 @@ import com.ociweb.pronghorn.structure.annotations.ProngStruct;
 
 @ProngStruct
 abstract class Big {
+
+    // Primatives
+
     abstract byte getByte();
     abstract void setByte(byte value);
 
@@ -31,6 +34,13 @@ abstract class Big {
 
     abstract double getDouble();
     abstract void setDouble(double value);
+
+    // Partial Primative
+
+    abstract long getLong1();
+    abstract void setLong2(long value);
+
+    // Boxed
 
     @ProngProperty(nullable=true)
     abstract Byte getOByte();
@@ -64,11 +74,22 @@ abstract class Big {
 
     @ProngProperty(nullable=true)
     abstract Float getOFloat();
+    @ProngProperty(nullable=true)
     abstract void setOFloat(Float value);
 
+    @ProngProperty(nullable=true)
     abstract Double getODouble();
     @ProngProperty(nullable=true)
     abstract void setODouble(Double value);
+
+    // Boxed Partial
+
+    @ProngProperty(nullable=true)
+    abstract Float getOFloat1();
+    @ProngProperty(nullable=true)
+    abstract void setOFloat2(Float value);
+
+    // Structure
 
     abstract GreenRational getRational1();
     abstract void setRational1(GreenRational rational);
@@ -85,6 +106,29 @@ abstract class Big {
     abstract GreenRational getRational4();
     @ProngProperty(nullable=true)
     abstract void setRational4(GreenRational rational);
+
+    // Partial Structure
+
+    abstract GreenRational getRational5();
+    abstract void setRational6(GreenRational value);
+    @ProngProperty(nullable=true)
+    abstract GreenRational getRational7();
+    @ProngProperty(nullable=true)
+    abstract void setRational8(GreenRational value);
+
+    // Recursion
+
+    @ProngProperty(nullable=true)
+    abstract Big getBig1();
+
+    @ProngProperty(nullable=true)
+    abstract Big getBig2();
+    abstract void setBig2(Big big);
+
+    @ProngProperty(nullable=true)
+    abstract Big getBig3();
+    @ProngProperty(nullable=true)
+    abstract void setBig3(Big big);
 }
 
 class ProngStructBehavior implements PubSubMethodListener, TimeListener {
