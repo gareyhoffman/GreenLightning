@@ -129,6 +129,16 @@ abstract class Big {
     abstract Big getBig3();
     @ProngProperty(nullable=true)
     abstract void setBig3(Big big);
+
+    // Arrays
+
+    abstract Integer[] getItegers();
+    abstract void setItegers(Integer[] value);
+    abstract GreenRational[] getRationals();
+    abstract void setRationals(GreenRational[] value);
+
+    @ProngProperty(nullable=true)
+    abstract Big[] getBigs();
 }
 
 class ProngStructBehavior implements PubSubMethodListener, TimeListener {
