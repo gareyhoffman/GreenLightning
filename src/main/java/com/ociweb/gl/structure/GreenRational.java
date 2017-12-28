@@ -1,9 +1,10 @@
 package com.ociweb.gl.structure;
 
 import com.ociweb.pronghorn.structure.annotations.ProngStruct;
+import com.ociweb.pronghorn.structure.annotations.ProngStructWriting;
 
 @ProngStruct
-public abstract class GreenRational {
+public abstract class GreenRational implements ProngStructWriting {
     public abstract long getNumerator();
     public abstract void setNumerator(long value);
 
