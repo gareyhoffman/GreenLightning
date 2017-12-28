@@ -15,6 +15,6 @@ public abstract class GreenRational {
     }
 
     public String toString() {
-        return String.valueOf(getNumerator()) + "/" + getDenominator();
+        return String.valueOf(getNumerator()) + "/" + getDenominator() + "=" + getValue();
     }
 }
