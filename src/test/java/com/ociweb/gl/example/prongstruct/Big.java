@@ -5,8 +5,38 @@ import com.ociweb.pronghorn.structure.annotations.ProngProperty;
 import com.ociweb.pronghorn.structure.annotations.ProngStruct;
 import com.ociweb.pronghorn.structure.annotations.ProngStructWriting;
 
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
+class SuperDuper {
+    @Override
+    public int hashCode() {
+        return 0;
+    }
+
+    public void clear() {
+    }
+
+    public void assignFrom(SuperDuper rhs) {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || !(o instanceof Big)) return false;
+        return true;
+    }
+
+    public void readExternal(ObjectInput input) throws IOException, ClassNotFoundException {
+    }
+
+    public void writeExternal(ObjectOutput output) throws IOException {
+    }
+}
+
 @ProngStruct
-public abstract class Big implements ProngStructWriting {
+public abstract class Big extends SuperDuper implements ProngStructWriting {
     // Primatives
     abstract boolean getBoolean();
     abstract void setBoolean(boolean value);
