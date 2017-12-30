@@ -10,6 +10,12 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 class SuperDuper {
+    public SuperDuper() {
+    }
+
+    public SuperDuper(SuperDuper rhs) {
+    }
+
     @Override
     public int hashCode() {
         return 0;
@@ -37,6 +43,15 @@ class SuperDuper {
 
 @ProngStruct
 public abstract class Big extends SuperDuper implements ProngStructWriting {
+
+    public Big() {
+
+    }
+
+    public Big(Big rhs) {
+        super(rhs);
+    }
+
     // Primatives
     abstract boolean getBoolean();
     abstract void setBoolean(boolean value);
