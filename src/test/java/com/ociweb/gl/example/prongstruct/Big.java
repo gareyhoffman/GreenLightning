@@ -3,6 +3,7 @@ package com.ociweb.gl.example.prongstruct;
 import com.ociweb.gl.structure.GreenRational;
 import com.ociweb.pronghorn.structure.annotations.ProngProperty;
 import com.ociweb.pronghorn.structure.annotations.ProngStruct;
+import com.ociweb.pronghorn.structure.annotations.ProngStructFormatter;
 import com.ociweb.pronghorn.structure.annotations.ProngStructWriting;
 
 import java.io.IOException;
@@ -25,6 +26,10 @@ class SuperDuper {
     }
 
     public void assignFrom(SuperDuper rhs) {
+    }
+
+    public void toStringProperties(ProngStructFormatter sb) {
+
     }
 
     @Override
