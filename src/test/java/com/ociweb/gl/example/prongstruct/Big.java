@@ -57,13 +57,20 @@ public abstract class Big extends SuperDuper implements ProngStructWriting {
         super(rhs);
     }
 
-    // Primatives
+    // Primitives
+    @ProngProperty(nullable=true)
     abstract boolean getBoolean();
+    @ProngProperty(nullable=true)
     abstract void setBoolean(boolean value);
+    abstract boolean isBooleanNull();
+    @ProngProperty(nullable=true)
     abstract byte getByte();
     abstract void setByte(byte value);
+    abstract boolean isByteNull();
     abstract short getShort();
+    @ProngProperty(nullable=true)
     abstract void setShort(short value);
+    abstract boolean isShortNull();
     abstract int getInt();
     abstract void setInt(int value);
     abstract long getLong();
@@ -95,9 +102,7 @@ public abstract class Big extends SuperDuper implements ProngStructWriting {
     abstract Long getOLong();
     @ProngProperty(nullable=true)
     abstract void setOLong(Long value);
-    @ProngProperty(nullable=true)
     abstract Character getOChar();
-    @ProngProperty(nullable=true)
     abstract void setOChar(Character value);
     abstract Float getOFloat();
     @ProngProperty(nullable=true)
@@ -106,12 +111,29 @@ public abstract class Big extends SuperDuper implements ProngStructWriting {
     abstract Double getODouble();
     abstract void setODouble(Double value);
 
+    // String
+    abstract CharSequence getString1();
+    abstract void setString1(CharSequence value);
+    @ProngProperty(nullable=true)
+    abstract CharSequence getString2();
+    abstract void setString2(CharSequence value);
+    abstract CharSequence getString3();
+    @ProngProperty(nullable=true)
+    abstract void setString3(CharSequence value);
+    @ProngProperty(nullable=true)
+    abstract CharSequence getString4();
+    @ProngProperty(nullable=true)
+    abstract void setString4(CharSequence value);
 
+    // Structs
     abstract GreenRational getGreenRational();
-
     @ProngProperty(nullable=true)
     abstract Big getBigStruct();
     abstract void setBigStruct(Big value);
+    @ProngProperty(nullable=true)
+    abstract Big getBigStruct2();
+    @ProngProperty(nullable=true)
+    abstract void setBigStruct2(Big value);
 
     void change() {
         this.setBoolean(!this.getBoolean());
