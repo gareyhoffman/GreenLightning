@@ -50,7 +50,6 @@ class SuperDuper {
 public abstract class Big extends SuperDuper implements ProngStructWriting {
 
     public Big() {
-
     }
 
     public Big(Big rhs) {
@@ -125,15 +124,41 @@ public abstract class Big extends SuperDuper implements ProngStructWriting {
     @ProngProperty(nullable=true)
     abstract void setString4(CharSequence value);
 
-    // Structs
-    abstract GreenRational getGreenRational();
+    // Structs a
+
+    abstract GreenRational getGreenRational1a();
+    abstract void setGreenRational1a(GreenRational value);
+
     @ProngProperty(nullable=true)
-    abstract Big getBigStruct();
-    abstract void setBigStruct(Big value);
+    abstract GreenRational getGreenRational2a();
+    abstract void setGreenRational2a(GreenRational value);
+
+    abstract GreenRational getGreenRational3a();
     @ProngProperty(nullable=true)
-    abstract Big getBigStruct2();
+    abstract void setGreenRational3a(GreenRational value);
+
     @ProngProperty(nullable=true)
-    abstract void setBigStruct2(Big value);
+    abstract GreenRational getGreenRational4a();
+    @ProngProperty(nullable=true)
+    abstract void setGreenRational4a(GreenRational value);
+
+    // Structs b
+
+    @ProngProperty(nullable=true)
+    abstract GreenRational getGreenRational2b();
+    abstract void setGreenRational2b(GreenRational value);
+    abstract boolean isGreenRational2bNull();
+
+    abstract GreenRational getGreenRational3b();
+    @ProngProperty(nullable=true)
+    abstract void setGreenRational3b(GreenRational value);
+    abstract boolean isGreenRational3bNull();
+
+    @ProngProperty(nullable=true)
+    abstract GreenRational getGreenRational4b();
+    @ProngProperty(nullable=true)
+    abstract void setGreenRational4b(GreenRational value);
+    abstract boolean isGreenRational4bNull();
 
     void change() {
         this.setBoolean(!this.getBoolean());
@@ -144,6 +169,6 @@ public abstract class Big extends SuperDuper implements ProngStructWriting {
         this.setChar((char)(this.getChar() + 1));
         this.setFloat((float)(this.getFloat() + 1.0));
         this.setDouble((double)(this.getDouble() + 1.0));
-        this.getGreenRational().setNumerator(this.getGreenRational().getNumerator() + 3);
+        this.getGreenRational1a().setNumerator(this.getGreenRational1a().getNumerator() + 3);
     }
 }
