@@ -45,6 +45,7 @@ class SuperDuper {
     public void writeExternal(ObjectOutput output) throws IOException {
     }
 }
+
 @ProngStruct
 public abstract class Big extends SuperDuper implements ProngStructWriting {
 
@@ -123,7 +124,6 @@ public abstract class Big extends SuperDuper implements ProngStructWriting {
     @ProngProperty(nullable=true)
     abstract void setStringNN(CharSequence value);
 
-
     // Structs using null references
 
     abstract GreenRational getGreenRationalCCR();
@@ -159,6 +159,26 @@ public abstract class Big extends SuperDuper implements ProngStructWriting {
     @ProngProperty(nullable=true)
     abstract void setGreenRationalNNB(GreenRational value);
     abstract boolean isGreenRationalNNBNull();
+
+    // Structs without getters
+
+    abstract void setBigXCR(GreenRational value);
+    @ProngProperty(nullable=true)
+    abstract void setBigXNR(GreenRational value);
+    abstract void setBigXCB(GreenRational value);
+    @ProngProperty(nullable=true)
+    abstract void setBigXNB(GreenRational value);
+    abstract boolean isBigXNBNull();
+
+    // Structs without setters
+
+    abstract GreenRational getBigCXR();
+    @ProngProperty(nullable=true)
+    abstract GreenRational getBigNXR();
+    abstract GreenRational getBigCXB();
+    @ProngProperty(nullable=true)
+    abstract GreenRational getBigNXB();
+    abstract boolean isBigNXBNull();
 
     void change() {
         this.setBoolean(!this.getBoolean());
