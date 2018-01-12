@@ -14,7 +14,7 @@ public class ProngStructBehavior implements PubSubMethodListener, TimeListener {
         cmd = runtime.newCommandChannel();
         this.topic = topic;
         cmd.ensureDynamicMessaging();
-        writeData.getGreenRational1a().setDenominator(1000);
+        writeData.getGreenRationalCCR().setDenominator(1000);
     }
 
     @Override

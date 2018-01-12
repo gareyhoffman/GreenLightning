@@ -35,7 +35,7 @@ class SuperDuper {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof Big)) return false;
+        if (o == null || !(o instanceof SuperDuper)) return false;
         return true;
     }
 
@@ -45,7 +45,6 @@ class SuperDuper {
     public void writeExternal(ObjectOutput output) throws IOException {
     }
 }
-
 @ProngStruct
 public abstract class Big extends SuperDuper implements ProngStructWriting {
 
@@ -111,54 +110,55 @@ public abstract class Big extends SuperDuper implements ProngStructWriting {
     abstract void setODouble(Double value);
 
     // String
-    abstract CharSequence getString1();
-    abstract void setString1(CharSequence value);
+    abstract CharSequence getStringCC();
+    abstract void setStringCC(CharSequence value);
     @ProngProperty(nullable=true)
-    abstract CharSequence getString2();
-    abstract void setString2(CharSequence value);
-    abstract CharSequence getString3();
+    abstract CharSequence getStringNC();
+    abstract void setStringNC(CharSequence value);
+    abstract CharSequence getStringCN();
     @ProngProperty(nullable=true)
-    abstract void setString3(CharSequence value);
+    abstract void setStringCN(CharSequence value);
     @ProngProperty(nullable=true)
-    abstract CharSequence getString4();
+    abstract CharSequence getStringNN();
     @ProngProperty(nullable=true)
-    abstract void setString4(CharSequence value);
+    abstract void setStringNN(CharSequence value);
 
-    // Structs a
 
-    abstract GreenRational getGreenRational1a();
-    abstract void setGreenRational1a(GreenRational value);
+    // Structs using null references
 
-    @ProngProperty(nullable=true)
-    abstract GreenRational getGreenRational2a();
-    abstract void setGreenRational2a(GreenRational value);
-
-    abstract GreenRational getGreenRational3a();
-    @ProngProperty(nullable=true)
-    abstract void setGreenRational3a(GreenRational value);
+    abstract GreenRational getGreenRationalCCR();
+    abstract void setGreenRationalCCR(GreenRational value);
 
     @ProngProperty(nullable=true)
-    abstract GreenRational getGreenRational4a();
-    @ProngProperty(nullable=true)
-    abstract void setGreenRational4a(GreenRational value);
+    abstract GreenRational getGreenRationalNCR();
+    abstract void setGreenRationalNCR(GreenRational value);
 
-    // Structs b
-
+    abstract GreenRational getGreenRationalCNR();
     @ProngProperty(nullable=true)
-    abstract GreenRational getGreenRational2b();
-    abstract void setGreenRational2b(GreenRational value);
-    abstract boolean isGreenRational2bNull();
-
-    abstract GreenRational getGreenRational3b();
-    @ProngProperty(nullable=true)
-    abstract void setGreenRational3b(GreenRational value);
-    abstract boolean isGreenRational3bNull();
+    abstract void setGreenRationalCNR(GreenRational value);
 
     @ProngProperty(nullable=true)
-    abstract GreenRational getGreenRational4b();
+    abstract GreenRational getGreenRationalNNR();
     @ProngProperty(nullable=true)
-    abstract void setGreenRational4b(GreenRational value);
-    abstract boolean isGreenRational4bNull();
+    abstract void setGreenRationalNNR(GreenRational value);
+
+    // Structs using null flags
+
+    @ProngProperty(nullable=true)
+    abstract GreenRational getGreenRationalNCB();
+    abstract void setGreenRationalNCB(GreenRational value);
+    abstract boolean isGreenRationalNCBNull();
+
+    abstract GreenRational getGreenRationalCNB();
+    @ProngProperty(nullable=true)
+    abstract void setGreenRationalCNB(GreenRational value);
+    abstract boolean isGreenRationalCNBNull();
+
+    @ProngProperty(nullable=true)
+    abstract GreenRational getGreenRationalNNB();
+    @ProngProperty(nullable=true)
+    abstract void setGreenRationalNNB(GreenRational value);
+    abstract boolean isGreenRationalNNBNull();
 
     void change() {
         this.setBoolean(!this.getBoolean());
@@ -169,6 +169,6 @@ public abstract class Big extends SuperDuper implements ProngStructWriting {
         this.setChar((char)(this.getChar() + 1));
         this.setFloat((float)(this.getFloat() + 1.0));
         this.setDouble((double)(this.getDouble() + 1.0));
-        this.getGreenRational1a().setNumerator(this.getGreenRational1a().getNumerator() + 3);
+        this.getGreenRationalCCR().setNumerator(this.getGreenRationalCCR().getNumerator() + 3);
     }
 }
