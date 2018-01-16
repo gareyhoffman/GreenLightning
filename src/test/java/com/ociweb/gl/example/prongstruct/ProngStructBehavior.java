@@ -1,9 +1,7 @@
 package com.ociweb.gl.example.prongstruct;
 
-import com.ociweb.gl.api.GreenCommandChannel;
-import com.ociweb.gl.api.GreenRuntime;
-import com.ociweb.gl.api.PubSubMethodListener;
-import com.ociweb.gl.api.TimeListener;
+import com.ociweb.gl.api.*;
+import com.ociweb.pronghorn.pipe.ChannelWriter;
 
 public class ProngStructBehavior implements PubSubMethodListener, TimeListener {
     private final GreenCommandChannel cmd;
@@ -20,7 +18,12 @@ public class ProngStructBehavior implements PubSubMethodListener, TimeListener {
     @Override
     public void timeEvent(long time, int iteration) {
         writeData.change();
-        cmd.publishTopic(topic, writeData::write);
+        cmd.publishTopic(topic, new Writable() {
+            @Override
+            public void write(ChannelWriter writer) {
+                writeData.channelWrite(writer);
+            }
+        });
     }
 
     boolean onStruct(CharSequence topic, Big data) {

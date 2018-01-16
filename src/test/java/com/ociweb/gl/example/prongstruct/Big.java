@@ -109,7 +109,7 @@ public abstract class Big extends SuperDuper implements ProngStructWriting {
     @ProngProperty(nullable=true)
     abstract Double getODouble();
     abstract void setODouble(Double value);
-
+/*
     // String
     abstract CharSequence getStringCC();
     abstract void setStringCC(CharSequence value);
@@ -123,7 +123,7 @@ public abstract class Big extends SuperDuper implements ProngStructWriting {
     abstract CharSequence getStringNN();
     @ProngProperty(nullable=true)
     abstract void setStringNN(CharSequence value);
-
+*/
     // Structs using null references
 
     abstract GreenRational getGreenRationalCCR();
@@ -190,5 +190,6 @@ public abstract class Big extends SuperDuper implements ProngStructWriting {
         this.setFloat((float)(this.getFloat() + 1.0));
         this.setDouble((double)(this.getDouble() + 1.0));
         this.getGreenRationalCCR().setNumerator(this.getGreenRationalCCR().getNumerator() + 3);
+        //this.setStringCC(this.getStringCC() + ".");
     }
 }

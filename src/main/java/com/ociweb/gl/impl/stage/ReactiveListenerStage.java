@@ -1001,10 +1001,10 @@ public class ReactiveListenerStage<H extends BuilderImpl> extends PronghornStage
 			public boolean method(Object that, CharSequence title, ChannelReader reader) {
 				// that must be found as the declared field of the lambda
 				assert(childIsFoundIn(that,callable)) : "may only call methods on this same Behavior instance";
-				T data = (T)engaging.beginRead(reader);
+				T data = (T)engaging.beginChannelRead(reader);
 				boolean result = callable.method(title, data);
-				engaging.endRead();
-				return true;//result;
+				engaging.endChannelRead();
+				return result;
 			}
 		});
 	}

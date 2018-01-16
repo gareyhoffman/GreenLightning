@@ -1,6 +1,7 @@
 package com.ociweb.gl.example.prongstruct;
 
 import com.ociweb.gl.api.*;
+import com.ociweb.gl.impl.stage.CallableTypeSafeMethod;
 
 public class ProngStructExample implements GreenApp {
 
@@ -16,8 +17,13 @@ public class ProngStructExample implements GreenApp {
     @Override
     public void declareBehavior(GreenRuntime runtime) {
         String topic = "big time value types";
-        ProngStructBehavior behavior = new ProngStructBehavior(runtime, topic);
+        final ProngStructBehavior behavior = new ProngStructBehavior(runtime, topic);
         runtime.registerListener(behavior)
-                .addSubscription(topic, Big.class, behavior::onStruct);
+                .addSubscription(topic, Big.class, new CallableTypeSafeMethod<Big>() {
+                    @Override
+                    public boolean method(CharSequence title, Big data) {
+                        return behavior.onStruct(title, data);
+                    }
+                });
     }
 }
