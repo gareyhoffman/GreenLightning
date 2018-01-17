@@ -982,16 +982,15 @@ public class ReactiveListenerStage<H extends BuilderImpl> extends PronghornStage
 	}
 
 	public <T> ListenerFilter addSubscription(CharSequence topic, Class struct, final CallableTypeSafeMethod<T> callable) {
-
-		final ProngStructReading engaging;
+		final ProngStructReading<T> reading;
 
 		ProngStruct prongStruct = (ProngStruct) struct.getAnnotation(ProngStruct.class);
 		assert(prongStruct != null) : "may only use struct classes annotated with ProngStruct";
 
 		try {
-			String implName = struct.getName() + prongStruct.suffix();
-			Class<?> implClass = Class.forName(implName);
-			engaging = (ProngStructReading)implClass.newInstance();
+			String context = struct.getName() + "ChannelEncodeExternalizable";
+			Class<?> implClass = Class.forName(context);
+			reading = (ProngStructReading<T>)implClass.newInstance();
 		} catch (IllegalAccessException | InstantiationException | ClassNotFoundException e) {
 			throw new RuntimeException("Failed to create struct impl instance", e);
 		}
@@ -1001,9 +1000,9 @@ public class ReactiveListenerStage<H extends BuilderImpl> extends PronghornStage
 			public boolean method(Object that, CharSequence title, ChannelReader reader) {
 				// that must be found as the declared field of the lambda
 				assert(childIsFoundIn(that,callable)) : "may only call methods on this same Behavior instance";
-				T data = (T)engaging.beginChannelRead(reader);
+				T data = (T)reading.beginChannelRead(reader);
 				boolean result = callable.method(title, data);
-				engaging.endChannelRead();
+				reading.endChannelRead();
 				return result;
 			}
 		});

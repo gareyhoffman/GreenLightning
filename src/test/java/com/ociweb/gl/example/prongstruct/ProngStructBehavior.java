@@ -6,7 +6,7 @@ import com.ociweb.pronghorn.pipe.ChannelWriter;
 public class ProngStructBehavior implements PubSubMethodListener, TimeListener {
     private final GreenCommandChannel cmd;
     private final String topic;
-    private final Big writeData = new com.ociweb.gl.example.prongstruct.BigStruct();
+    private final BigStruct writeData = new BigStruct();
 
     ProngStructBehavior(GreenRuntime runtime, String topic) {
         cmd = runtime.newCommandChannel();
@@ -21,7 +21,7 @@ public class ProngStructBehavior implements PubSubMethodListener, TimeListener {
         cmd.publishTopic(topic, new Writable() {
             @Override
             public void write(ChannelWriter writer) {
-                writeData.channelWrite(writer);
+                writer.write(writeData);
             }
         });
     }

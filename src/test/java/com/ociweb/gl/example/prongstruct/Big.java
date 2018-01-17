@@ -47,7 +47,7 @@ class SuperDuper {
 }
 
 @ProngStruct
-public abstract class Big extends SuperDuper implements ProngStructWriting {
+public abstract class Big extends SuperDuper {
 
     public Big() {
     }
