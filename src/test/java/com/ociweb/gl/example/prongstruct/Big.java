@@ -4,7 +4,6 @@ import com.ociweb.gl.structure.GreenRational;
 import com.ociweb.pronghorn.structure.annotations.ProngProperty;
 import com.ociweb.pronghorn.structure.annotations.ProngStruct;
 import com.ociweb.pronghorn.structure.annotations.ProngStructFormatter;
-import com.ociweb.pronghorn.structure.annotations.ProngStructWriting;
 
 import java.io.IOException;
 import java.io.ObjectInput;

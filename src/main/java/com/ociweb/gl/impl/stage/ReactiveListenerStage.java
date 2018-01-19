@@ -20,8 +20,10 @@ import com.ociweb.pronghorn.pipe.PipeUTF8MutableCharSquence;
 import com.ociweb.pronghorn.pipe.util.hash.IntHashTable;
 import com.ociweb.pronghorn.stage.PronghornStage;
 import com.ociweb.pronghorn.stage.scheduling.GraphManager;
+//import com.ociweb.pronghorn.structure.annotations.ProngStruct;
+//import com.ociweb.pronghorn.structure.annotations.ProngStructReading;
 import com.ociweb.pronghorn.structure.annotations.ProngStruct;
-import com.ociweb.pronghorn.structure.annotations.ProngStructReading;
+import com.ociweb.pronghorn.structure.annotations.ProngStructDecoder;
 import com.ociweb.pronghorn.util.TrieParser;
 import com.ociweb.pronghorn.util.TrieParserReader;
 import org.slf4j.Logger;
@@ -982,7 +984,7 @@ public class ReactiveListenerStage<H extends BuilderImpl> extends PronghornStage
 	}
 
 	public <T> ListenerFilter addSubscription(CharSequence topic, Class struct, final CallableTypeSafeMethod<T> callable) {
-		final ProngStructReading<T> reading;
+		final ProngStructDecoder<T> reading;
 
 		ProngStruct prongStruct = (ProngStruct) struct.getAnnotation(ProngStruct.class);
 		assert(prongStruct != null) : "may only use struct classes annotated with ProngStruct";
@@ -990,7 +992,7 @@ public class ReactiveListenerStage<H extends BuilderImpl> extends PronghornStage
 		try {
 			String context = struct.getName() + "ChannelEncodeExternalizable";
 			Class<?> implClass = Class.forName(context);
-			reading = (ProngStructReading<T>)implClass.newInstance();
+			reading = (ProngStructDecoder<T>)implClass.newInstance();
 		} catch (IllegalAccessException | InstantiationException | ClassNotFoundException e) {
 			throw new RuntimeException("Failed to create struct impl instance", e);
 		}
